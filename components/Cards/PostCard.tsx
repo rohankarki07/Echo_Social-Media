@@ -1,3 +1,4 @@
+import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -61,7 +62,7 @@ const PostCard = ({
                 />
               </Link>
             )}
-            <div className="thread-card_bar" />
+            <div className="post-card_bar" />
           </div>
           <div className="flex- w-full flex-col">
             {authorId && ( // Check if authorId exists before rendering the Link
@@ -116,6 +117,29 @@ const PostCard = ({
           </div>
         </div>
       </div>
+      {/* todo delete post */}
+      {/* todo show comment logo */}
+
+      {!isComment && community && (
+        <div className="mt-5 flex items-center">
+          <p className="text-subtle-medium text-gray-1">
+            {formatDateString(createdAt)}
+          </p>
+          <p className="text-subtle-medium text-gray-1"> - </p>
+          <Link href={`/communities/${community.id}`}>
+            <a className="text-subtle-medium text-gray-1">
+              {community.name} Community
+            </a>
+          </Link>
+          <Image
+            src={community.image}
+            alt={community.name}
+            width={14}
+            height={14}
+            className="ml-1 rounded-full object-cover"
+          />
+        </div>
+      )}
     </article>
   );
 };

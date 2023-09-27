@@ -1,7 +1,7 @@
 import PostCard from "@/components/Cards/PostCard";
 import Comment from "@/components/Forms/Comment";
 
-import { fetchPostByID } from "@/lib/actions/post.actions";
+import { fetchPostById } from "@/lib/actions/post.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 
 import { currentUser } from "@clerk/nextjs";
@@ -16,7 +16,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const post = await fetchPostByID(params.id);
+  const post = await fetchPostById(params.id);
 
   return (
     <section className="relative">

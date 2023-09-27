@@ -16,7 +16,8 @@ import { Textarea } from "../ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 
-// import { updateUser } from "@/lib/actions/user.actions";
+import { useOrganization } from "@clerk/nextjs";
+
 import { PostValidation } from "@/lib/validations/post";
 import { createPost } from "@/lib/actions/post.actions";
 
@@ -32,9 +33,10 @@ interface Props {
   btnTitle: string;
 }
 
-const PostThread = ({ userId }: { userId: string }) => {
+const Post = ({ userId }: { userId: string }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { organization } = useOrganization();
 
   const form = useForm({
     resolver: zodResolver(PostValidation),
@@ -48,18 +50,17 @@ const PostThread = ({ userId }: { userId: string }) => {
     await createPost({
       text: values.post,
       author: userId,
-      communityId: null,
+      communityId: organization ? organization.id : null,
       path: pathname,
     });
     router.push("/");
   };
   return (
     <>
-      <h1>Post Form</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className=" mt-10 flex flex-col justify-start gap-10 "
+          className="mt-10 flex flex-col justify-start gap-10 "
         >
           {/* name  */}
           <FormField
@@ -86,4 +87,4 @@ const PostThread = ({ userId }: { userId: string }) => {
   );
 };
 
-export default PostThread;
+export default Post;
