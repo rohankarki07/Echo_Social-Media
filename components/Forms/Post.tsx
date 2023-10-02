@@ -47,11 +47,14 @@ const Post = ({ userId }: { userId: string }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof PostValidation>) => {
+    console.log(organization);
+
     await createPost({
       text: values.post,
       author: userId,
       communityId: organization ? organization.id : null,
       path: pathname,
+      organizationId: organization ? organization.id : null,
     });
     router.push("/");
   };

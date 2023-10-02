@@ -24,6 +24,7 @@ interface Props {
     };
   }[];
   isComment?: boolean;
+  isSpecificPost?: boolean;
 }
 
 const PostCard = ({
@@ -36,6 +37,7 @@ const PostCard = ({
   createdAt,
   comments,
   isComment,
+  isSpecificPost,
 }: Props) => {
   // Check if author exists and has an 'id' property
   const authorId = author?.id || "";
@@ -106,7 +108,7 @@ const PostCard = ({
                   className="cursor-pointer object-contain"
                 />
               </div>
-              {isComment && comments.length > 0 && (
+              {!isSpecificPost && comments.length > 0 && (
                 <Link href={`/post/${id}`}>
                   <p className="mt-1 text-subtle-medium text-gray-1">
                     {comments.length} replies
@@ -120,17 +122,16 @@ const PostCard = ({
       {/* todo delete post */}
       {/* todo show comment logo */}
 
+      {console.log("community", community)}
+
       {!isComment && community && (
-        <div className="mt-5 flex items-center">
+        <Link
+          href={`/communities/${community.id}`}
+          className="mt-5 flex items-center"
+        >
           <p className="text-subtle-medium text-gray-1">
-            {formatDateString(createdAt)}
+            {formatDateString(createdAt)} - {community.name} Community
           </p>
-          <p className="text-subtle-medium text-gray-1"> - </p>
-          <Link href={`/communities/${community.id}`}>
-            <a className="text-subtle-medium text-gray-1">
-              {community.name} Community
-            </a>
-          </Link>
           <Image
             src={community.image}
             alt={community.name}
@@ -138,7 +139,7 @@ const PostCard = ({
             height={14}
             className="ml-1 rounded-full object-cover"
           />
-        </div>
+        </Link>
       )}
     </article>
   );

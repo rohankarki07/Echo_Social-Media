@@ -4,24 +4,19 @@ import { FilterQuery, SortOrder } from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import Community from "../models/community.model";
-import Post from "../models/post.model";
 import User from "../models/user.model";
 
 import { connectToDb } from "../mongoose";
+import Post from "../models/post.model";
 
 export async function fetchUser(userId: string) {
   try {
     connectToDb();
 
-    return await User.findOne({ id: userId })
-      .populate({
-        path: "communities",
-        model: Community,
-      })
-      .populate({
-        path: "post",
-        model: Post,
-      });
+    return await User.findOne({ id: userId }).populate({
+      path: "communities",
+      model: Community,
+    });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }

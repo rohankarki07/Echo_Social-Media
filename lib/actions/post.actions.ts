@@ -53,9 +53,16 @@ interface Params {
   author: string;
   communityId: string | null;
   path: string;
+  organizationId: string | null;
 }
 
-export async function createPost({ text, author, communityId, path }: Params) {
+export async function createPost({
+  text,
+  author,
+  communityId,
+  organizationId,
+  path,
+}: Params) {
   try {
     connectToDb();
 
@@ -68,6 +75,7 @@ export async function createPost({ text, author, communityId, path }: Params) {
       text,
       author,
       community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
+      organization: organizationId,
     });
 
     // Update User model
