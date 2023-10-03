@@ -110,9 +110,24 @@ const PostCard = ({
               </div>
               {!isSpecificPost && comments.length > 0 && (
                 <Link href={`/post/${id}`}>
-                  <p className="mt-1 text-subtle-medium text-gray-1">
-                    {comments.length} replies
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex">
+                      {comments.slice(-3).map((comment, index) => (
+                        <div key={`comment-${index}`}>
+                          <Image
+                            src={comment.author.image} // Access the 'image' property of the 'comment.author' object
+                            alt="Profile image"
+                            width={24}
+                            height={24}
+                            className="cursor-pointer rounded-full"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-1 text-subtle-medium text-gray-1">
+                      {comments.length} replies
+                    </p>
+                  </div>
                 </Link>
               )}
             </div>
@@ -121,8 +136,6 @@ const PostCard = ({
       </div>
       {/* todo delete post */}
       {/* todo show comment logo */}
-
-      {console.log("community", community)}
 
       {!isComment && community && (
         <Link

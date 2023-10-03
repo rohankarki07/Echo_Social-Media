@@ -8,6 +8,7 @@ export default async function Home() {
   const user = await currentUser();
 
   if (!user) return null;
+
   return (
     <>
       <h1 className="head-text text-left">Home</h1>

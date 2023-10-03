@@ -13,8 +13,8 @@ const page = async () => {
 
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  //get notification
-  const notification = await getNotification(userInfo._id);
+  // Get notifications and reverse the order
+  const notification = (await getNotification(userInfo._id)).reverse();
 
   return (
     <section>
