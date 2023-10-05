@@ -49,7 +49,7 @@ const PostCard = ({
       }`}
     >
       <div className="flex items-start justify-between">
-        <div className="flex w-full flex-1 flex-row gap-4">
+        <div className="flex flex-row flex-1 w-full gap-4">
           <div className="flex flex-col items-center">
             {authorId && ( // Check if authorId exists before rendering the Link
               <Link
@@ -60,13 +60,31 @@ const PostCard = ({
                   src={author.image}
                   alt="Profile image"
                   fill
-                  className="cursor-pointer rounded-full"
+                  className="rounded-full cursor-pointer"
                 />
               </Link>
             )}
             <div className="post-card_bar" />
+            {/* images of the lastest 3 commentor  */}
+            {!isSpecificPost && comments.length > 0 && (
+              <Link href={`/post/${id}`}>
+                <div className="flex">
+                  {comments.slice(-3).map((comment, index) => (
+                    <div key={`comment-${index}`}>
+                      <Image
+                        src={comment.author.image} // Access the 'image' property of the 'comment.author' object
+                        alt="Profile image"
+                        width={24}
+                        height={24}
+                        className="rounded-full cursor-pointer"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Link>
+            )}
           </div>
-          <div className="flex- w-full flex-col">
+          <div className="flex-col w-full flex-">
             {authorId && ( // Check if authorId exists before rendering the Link
               <Link href={`/profile/${author.id}`} className="w-fit">
                 <h4 className="cursor-pointer text-base-semibold text-light-1 ">
@@ -82,7 +100,7 @@ const PostCard = ({
                   alt="heart"
                   width={24}
                   height={24}
-                  className="cursor-pointer object-contain"
+                  className="object-contain cursor-pointer"
                 />
                 <Link href={`/post/${id}`}>
                   <Image
@@ -90,7 +108,7 @@ const PostCard = ({
                     alt="reply"
                     width={24}
                     height={24}
-                    className="cursor-pointer object-contain"
+                    className="object-contain cursor-pointer"
                   />
                 </Link>
                 <Image
@@ -98,36 +116,21 @@ const PostCard = ({
                   alt="repost"
                   width={24}
                   height={24}
-                  className="cursor-pointer object-contain"
+                  className="object-contain cursor-pointer"
                 />
                 <Image
                   src="/assets/share.svg"
                   alt="share"
                   width={24}
                   height={24}
-                  className="cursor-pointer object-contain"
+                  className="object-contain cursor-pointer"
                 />
               </div>
               {!isSpecificPost && comments.length > 0 && (
                 <Link href={`/post/${id}`}>
-                  <div className="flex items-center gap-2">
-                    <div className="flex">
-                      {comments.slice(-3).map((comment, index) => (
-                        <div key={`comment-${index}`}>
-                          <Image
-                            src={comment.author.image} // Access the 'image' property of the 'comment.author' object
-                            alt="Profile image"
-                            width={24}
-                            height={24}
-                            className="cursor-pointer rounded-full"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <p className="mt-1 text-subtle-medium text-gray-1">
-                      {comments.length} replies
-                    </p>
-                  </div>
+                  <p className="mt-1 text-subtle-medium text-gray-1">
+                    {comments.length} replies
+                  </p>
                 </Link>
               )}
             </div>
@@ -136,11 +139,10 @@ const PostCard = ({
       </div>
       {/* todo delete post */}
       {/* todo show comment logo */}
-
       {!isComment && community && (
         <Link
           href={`/communities/${community.id}`}
-          className="mt-5 flex items-center"
+          className="flex items-center mt-5"
         >
           <p className="text-subtle-medium text-gray-1">
             {formatDateString(createdAt)} - {community.name} Community
@@ -150,7 +152,7 @@ const PostCard = ({
             alt={community.name}
             width={14}
             height={14}
-            className="ml-1 rounded-full object-cover"
+            className="object-cover ml-1 rounded-full"
           />
         </Link>
       )}

@@ -2,7 +2,7 @@ import PostTab from "@/components/Shared/PostTab";
 import ProfileHeader from "@/components/Shared/ProfileHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
-import { fetchUser } from "@/lib/actions/user.actions";
+import { fetchUserPosts } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -12,9 +12,10 @@ const page = async ({ params }: { params: { id: string } }) => {
 
   if (!user) return null;
 
-  const userInfo = await fetchUser(params.id);
+  const userInfo = await fetchUserPosts(params.id);
 
   if (!userInfo?.onboarded) redirect("/onboarding");
+  console.log(userInfo.post);
 
   return (
     <section>
