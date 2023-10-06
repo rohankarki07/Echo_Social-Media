@@ -1,6 +1,7 @@
 import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import Avatar from "../ui/Avatar";
 
 interface Props {
   id: string;
@@ -71,13 +72,7 @@ const PostCard = ({
                 <div className="flex">
                   {comments.slice(-3).map((comment, index) => (
                     <div key={`comment-${index}`}>
-                      <Image
-                        src={comment.author.image} // Access the 'image' property of the 'comment.author' object
-                        alt="Profile image"
-                        width={24}
-                        height={24}
-                        className="rounded-full cursor-pointer"
-                      />
+                      <Avatar src={comment.author.image} alt="Image" />
                     </div>
                   ))}
                 </div>
