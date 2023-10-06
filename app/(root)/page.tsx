@@ -9,16 +9,20 @@ export default async function Home() {
 
   if (!user) return null;
 
+  const postsByOthers = result.posts.filter(
+    (post) => post.author.id !== user.id
+  );
+
   return (
     <>
-      <h1 className="head-text text-left">Home</h1>
+      <h1 className="text-left head-text">Home</h1>
 
-      <section className="mt-9 flex flex-col gap-10">
-        {result.posts.length === 0 ? (
+      <section className="flex flex-col gap-10 mt-9">
+        {postsByOthers.length === 0 ? (
           <p className="no-result">No Post found</p>
         ) : (
           <>
-            {result.posts.map((post) => (
+            {postsByOthers.map((post) => (
               <PostCard
                 key={post._id}
                 id={post._id}
