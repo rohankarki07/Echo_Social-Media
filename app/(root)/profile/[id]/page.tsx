@@ -15,8 +15,6 @@ const page = async ({ params }: { params: { id: string } }) => {
   const userInfo = await fetchUserPosts(params.id);
 
   if (!userInfo?.onboarded) redirect("/onboarding");
-  console.log(userInfo.post);
-
   return (
     <section>
       <ProfileHeader

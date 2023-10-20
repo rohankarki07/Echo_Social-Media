@@ -2,16 +2,21 @@ import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { communityTabs } from "@/constants";
 
-import PostTab from "@/components/Shared/PostTab";
 import ProfileHeader from "@/components/Shared/ProfileHeader";
+import PostTab from "@/components/Shared/PostTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetchCommunityDetails } from "@/lib/actions/community.actions";
+import {
+  fetchCommunityDetails,
+  fetchCommunityPosts,
+} from "@/lib/actions/community.actions";
 import UserCard from "@/components/Cards/UserCard";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const user = await currentUser();
 
   if (!user) return null;
+
+  const communityPosts = await fetchCommunityPosts(params.id);
 
   const communityDetails = await fetchCommunityDetails(params.id);
 
@@ -41,7 +46,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                 <p className="max-sm:hidden">{tab.label}</p>
                 {tab.label === "Posts" && (
                   <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
-                    {communityDetails?.post?.length}
+                    {communityPosts?.post?.length}
                   </p>
                 )}
               </TabsTrigger>
@@ -57,7 +62,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           </TabsContent>
 
           <TabsContent value="members" className="w-full text-light-1">
-            <section className="mt-9 flex flex-col gap-10 ">
+            <section className="flex flex-col gap-10 mt-9 ">
               {communityDetails.members.map((member: any) => (
                 <UserCard
                   key={member.id}
@@ -75,7 +80,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             <PostTab
               currentUserId={user.id}
               accountId={communityDetails.id}
-              accountType="Community"
+              accountType="community"
             />
           </TabsContent>
         </Tabs>
